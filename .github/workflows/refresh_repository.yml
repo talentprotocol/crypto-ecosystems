@@ -52,14 +52,15 @@ jobs:
       # Step 4: Call API with List of Changed Files
       - name: Notify API
         id: api_call
+        if: ${{ steps.changed_files.outputs.files != '[]' }}
         env:
-          API_URL: 	https://webhook.site/72dfba35-b3d1-4571-9dbc-21ab7c9413aa
-          API_KEY: "123"  # Securely store the API key in GitHub Secrets
+          API_URL: ${{ secrets.TALENT_PROTOCOL_API_URL }}
+          API_KEY: ${{ secrets.TALENT_PROTOCOL_API_SECRET }}  # Securely store the API key in GitHub Secrets
         run: |
           echo '${{ steps.changed_files.outputs.files }}'
-          curl -X POST $API_URL \
+          curl -X PUT $API_URL \
           -H "Content-Type: application/json" \
-          -H "Authorization: Bearer $API_KEY" \
+          -H "X-API-SECRET: $API_KEY" \
           -d '{
             "repository": "${{ github.repository }}",
             "pushed_by": "${{ github.actor }}",
