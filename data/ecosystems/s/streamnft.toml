@@ -1,0 +1,15 @@
+# Ecosystem Level Information
+title = "StreamNFT"
+
+sub_ecosystems = []
+
+github_organizations = ["https://github.com/streamnft-tech"]
+
+# Repositories
+[[repo]]
+url = "https://github.com/streamnft-tech/EVM"
+missing = true
+
+[[repo]]
+url = "https://github.com/streamnft-tech/nftUtility"
+missing = true
