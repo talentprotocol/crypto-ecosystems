@@ -74,11 +74,25 @@ jobs:
           git checkout master
           echo "Current branch after checkout:"
           git branch -v
+          
+          # Store current workflow files if PAT_TOKEN is not available
+          if [[ -z "${{ secrets.PAT_TOKEN }}" ]]; then
+            echo "PAT_TOKEN not set - will preserve current workflow files"
+            git stash push -m "preserve_workflows" .github/workflows/ || true
+          fi
+          
           # Merge instead of hard-reset to keep local-only files like workflows
           git merge --no-edit upstream/master || true
+          
+          # Restore workflow files if PAT_TOKEN is not available
+          if [[ -z "${{ secrets.PAT_TOKEN }}" ]]; then
+            echo "Restoring workflow files to current version (PAT_TOKEN required to update them)"
+            git checkout HEAD -- .github/workflows/ || true
+            git stash pop || true
+          fi
+          
           echo "Pushing merge to origin..."
-          # Configure git to use token for push (needed for workflow file changes)
-          # If PAT_TOKEN is not set, this will fail when trying to push workflow file changes
+          # Configure git to use token for push
           git remote set-url origin https://${GIT_TOKEN}@github.com/${{ github.repository }}.git
           # Push the updated branch back to the fork without rewriting history
           git push origin master
