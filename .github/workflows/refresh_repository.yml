@@ -64,6 +64,10 @@ jobs:
 
       - name: Sync Fork with Upstream
         if: steps.changed_files.outputs.has_changes == 'true' # Only run if there are changes
+        env:
+          # Use PAT_TOKEN if available (required for workflow file changes), fallback to GITHUB_TOKEN
+          # Note: GITHUB_TOKEN cannot modify workflow files, so PAT_TOKEN must be set with 'workflow' scope
+          GIT_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           echo "Starting sync with upstream..."
           # Merge upstream/master into the current branch
@@ -73,6 +77,9 @@ jobs:
           # Merge instead of hard-reset to keep local-only files like workflows
           git merge --no-edit upstream/master || true
           echo "Pushing merge to origin..."
+          # Configure git to use token for push (needed for workflow file changes)
+          # If PAT_TOKEN is not set, this will fail when trying to push workflow file changes
+          git remote set-url origin https://${GIT_TOKEN}@github.com/${{ github.repository }}.git
           # Push the updated branch back to the fork without rewriting history
           git push origin master
           echo "Sync completed"
