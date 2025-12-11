@@ -78,14 +78,15 @@ jobs:
           # Merge upstream changes
           git merge --no-edit upstream/master || true
           
-          # Always restore workflow files to pre-merge version (exclude from merge)
-          echo "Excluding workflow files from merge - restoring to current version"
+          # Remove workflow files from the merge completely
+          echo "Excluding workflow files from merge - removing from index"
+          git rm --cached -r .github/workflows/ 2>/dev/null || true
+          
+          # Restore workflow files to pre-merge version from working directory
+          echo "Restoring workflow files to current version"
           git checkout $CURRENT_COMMIT -- .github/workflows/ || true
           
-          # Stage the restored workflow files and complete the merge
-          git add .github/workflows/ || true
-          
-          # Complete the merge with the restored workflow files
+          # Complete the merge without workflow files
           if [[ -f .git/MERGE_HEAD ]]; then
             git commit --no-edit || true
           fi
