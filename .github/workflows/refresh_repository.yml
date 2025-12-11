@@ -63,7 +63,7 @@ jobs:
           echo "has_changes=$HAS_CHANGES" >> $GITHUB_OUTPUT
 
       - name: Sync Fork with Upstream
-        if: steps.changed_files.outputs.has_changes == 'true' # Only run if there are changes
+        if: steps.changed_files.outputs.has_changes == 'false' # Only run if there are changes
         run: |
           echo "Starting sync with upstream..."
           # Merge upstream/master into the current branch
