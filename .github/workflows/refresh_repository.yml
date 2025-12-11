@@ -103,6 +103,14 @@ jobs:
           git push origin master
           echo "Sync completed"
 
+      - name: Install uv
+        if: steps.changed_files.outputs.has_changes == 'true'
+        run: |
+          echo "Installing uv..."
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          uv --version
+
       - name: Run Export Command
         if: steps.changed_files.outputs.has_changes == 'true'
         run: |
