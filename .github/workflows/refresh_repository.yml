@@ -58,7 +58,6 @@ jobs:
           if [[ -n "$CHANGED_FILES" ]]; then
              HAS_CHANGES="true"
           fi
-          HAS_CHANGES="true"
           echo "Has changes: $HAS_CHANGES"
           echo "has_changes=$HAS_CHANGES" >> $GITHUB_OUTPUT
 
