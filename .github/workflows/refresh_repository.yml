@@ -64,10 +64,6 @@ jobs:
 
       - name: Sync Fork with Upstream
         if: steps.changed_files.outputs.has_changes == 'true' # Only run if there are changes
-        env:
-          # Use PAT_TOKEN if available (required for workflow file changes), fallback to GITHUB_TOKEN
-          # Note: GITHUB_TOKEN cannot modify workflow files, so PAT_TOKEN must be set with 'workflow' scope
-          GIT_TOKEN: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           echo "Starting sync with upstream..."
           # Merge upstream/master into the current branch
@@ -75,25 +71,26 @@ jobs:
           echo "Current branch after checkout:"
           git branch -v
           
-          # Store current workflow files if PAT_TOKEN is not available
-          if [[ -z "${{ secrets.PAT_TOKEN }}" ]]; then
-            echo "PAT_TOKEN not set - will preserve current workflow files"
-            git stash push -m "preserve_workflows" .github/workflows/ || true
-          fi
+          # Store the current commit hash before merge
+          CURRENT_COMMIT=$(git rev-parse HEAD)
+          echo "Current commit before merge: $CURRENT_COMMIT"
           
-          # Merge instead of hard-reset to keep local-only files like workflows
+          # Merge upstream changes
           git merge --no-edit upstream/master || true
           
-          # Restore workflow files if PAT_TOKEN is not available
-          if [[ -z "${{ secrets.PAT_TOKEN }}" ]]; then
-            echo "Restoring workflow files to current version (PAT_TOKEN required to update them)"
-            git checkout HEAD -- .github/workflows/ || true
-            git stash pop || true
+          # Always restore workflow files to pre-merge version (exclude from merge)
+          echo "Excluding workflow files from merge - restoring to current version"
+          git checkout $CURRENT_COMMIT -- .github/workflows/ || true
+          
+          # Stage the restored workflow files and complete the merge
+          git add .github/workflows/ || true
+          
+          # Complete the merge with the restored workflow files
+          if [[ -f .git/MERGE_HEAD ]]; then
+            git commit --no-edit || true
           fi
           
           echo "Pushing merge to origin..."
-          # Configure git to use token for push
-          git remote set-url origin https://${GIT_TOKEN}@github.com/${{ github.repository }}.git
           # Push the updated branch back to the fork without rewriting history
           git push origin master
           echo "Sync completed"
