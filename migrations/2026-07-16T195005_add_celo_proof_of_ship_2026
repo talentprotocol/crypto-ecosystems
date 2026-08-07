@@ -1,6 +1,6 @@
-# Celo 2026 Proof of Ship cohort — public, Celo-verified repositories
-# Source: 2026 Proof of Ship submissions. Filtered to public/externally-accessible repos,
-# non-fork, non-empty, with verified Celo relevance; deduplicated against existing Celo taxonomy.
+-- Celo 2026 Proof of Ship cohort — public, Celo-verified repositories
+-- Source: 2026 Proof of Ship submissions. Filtered to public/externally-accessible repos,
+-- non-fork, non-empty, with verified Celo relevance; deduplicated against existing Celo taxonomy.
 repadd Celo https://github.com/0xj4an/MiniKlaim
 repadd Celo https://github.com/0xnurrabby/celotip
 repadd Celo https://github.com/0xOlivanode/Focus_pet-
