@@ -1,0 +1,6 @@
+-- Add additional official KiteAI repositories with direct Kite ecosystem evidence
+repadd KiteAI https://github.com/gokite-ai/a2a-coordination-extension
+repadd KiteAI https://github.com/gokite-ai/developer-docs
+repadd KiteAI https://github.com/gokite-ai/example-contracts
+repadd KiteAI https://github.com/gokite-ai/kite_voting_dapp
+repadd KiteAI https://github.com/gokite-ai/kite-snapshots
