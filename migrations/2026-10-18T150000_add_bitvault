@@ -1,0 +1,4 @@
+-- BitVault: multi-algorithm proof-of-work Layer 1 (https://bitvault.club)
+-- Submitted by the project (bitvault-developers).
+ecoadd BitVault
+repadd BitVault https://github.com/bitvault-developers/bitvault-node #protocol

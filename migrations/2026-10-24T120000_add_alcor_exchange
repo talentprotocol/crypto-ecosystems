@@ -1,0 +1,17 @@
+-- Alcor Exchange: DEX (concentrated-liquidity AMM and order book) on WAX, EOS (Vaulta), Telos and XPR (Proton),
+-- with its own trust-minimized bridge (light clients, Telos hub) to Ethereum, BSC, Polygon, Sui and NEAR.
+ecoadd "Alcor Exchange"
+ecocon WAX "Alcor Exchange"
+ecocon EOS "Alcor Exchange"
+ecocon Telos "Alcor Exchange"
+ecocon Proton "Alcor Exchange"
+repadd "Alcor Exchange" https://github.com/alcorexchange/alcor-ui #protocol
+repadd "Alcor Exchange" https://github.com/alcorexchange/alcor-v2-sdk #protocol #sdk
+repadd "Alcor Exchange" https://github.com/alcorexchange/alcor-bridge-indexer #protocol
+repadd "Alcor Exchange" https://github.com/alcorexchange/docs #protocol
+repadd "Alcor Exchange" https://github.com/alcorexchange/alcor-oracle-price #protocol
+repadd "Alcor Exchange" https://github.com/alcorexchange/ibc-wraptoken #protocol
+repadd "Alcor Exchange" https://github.com/alcorexchange/ibc-wraplock-token #protocol
+repadd "Alcor Exchange" https://github.com/alcorexchange/antelope_memo_account_creator #protocol
+repadd "Alcor Exchange" https://github.com/alcorexchange/privy-vue #developer-tool
+repadd "Alcor Exchange" https://github.com/alcorexchange/alcor-bp-page
